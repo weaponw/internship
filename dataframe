@@ -1,0 +1,13 @@
+names2016 = pd.read_csv('yob2016.txt',names=['names','sex','births'])#读取数据并加上列名
+names2016_boy=names2016[names2016['sex']=='M']#选取满足特定条件的数据
+names1880.groupby('sex').births.mean()#将数据按某列分组并求平均、求和、极值
+
+years = range(1880,2016)
+pieces=[]
+columns=['names','sex','births']
+for year in years:
+    path ='names/yob%d.txt' % year
+    frame = pd.read_csv(path,names=columns)
+    frame['year']=year
+    pieces.append(frame)
+names=pd.concat(pieces,ignore_index=True)##将不同文件的数据整合到一起，并添加列用以表明来自不同文件
