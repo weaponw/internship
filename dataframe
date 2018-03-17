@@ -10,4 +10,11 @@ for year in years:
     frame = pd.read_csv(path,names=columns)
     frame['year']=year
     pieces.append(frame)
-names=pd.concat(pieces,ignore_index=True)##将不同文件的数据整合到一起，并添加列用以表明来自不同文件
+names=pd.concat(pieces,ignore_index=True)##将不同文件的数据整合到一起，并添加列用以表明来自不同文件。concat默认按行将多个DataFrame组合到一起
+
+total_births = names.pivot_table('births',index='year',columns='sex',aggfunc=sum)#pivot_table(透视表)对数据进行分组
+
+def get_top1000(group):#提取出生在前一千的数据
+    return group.sort_index(by='births',ascending=False)[:1000]
+grouped = names.groupby(['year','sex'])
+top1000 = grouped.apply(get_top1000)
